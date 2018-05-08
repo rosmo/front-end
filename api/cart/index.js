@@ -118,6 +118,14 @@
       next(new Error("Must pass quantity to update"), 400);
       return;
     }
+
+    // STACKDRIVER-DEMO: incorrectly check for 0 quantity
+    if (req.body.quantity < 1)
+    {
+        console.error((new Error('Tried to set quantity < 0')).stack);
+        // TODO: Remove item from cart when quantity is < 1
+    }
+
     var custId = helpers.getCustomerId(req, app.get("env"));
 
     async.waterfall([
